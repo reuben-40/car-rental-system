@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@tanstack/react-query": "^5.104.2",
+    "@tanstack/react-router": "^1.170.44"
+  }
+}
