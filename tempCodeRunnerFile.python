@@ -1,0 +1,44 @@
+num1 = 15
+num2 = 7
+if num1 > num2:
+ print("First number is greater than second number")
+ print("I am outside the IF block")
+
+#Another exercise
+x=1
+while x < 10:
+ print(x)
+ x=x+1
+
+#Exercise 3
+age = int(input("Enter your age:"))
+ticket_type = input("Enter your ticket type")
+
+if age >= 18 and age <= 35:
+    if ticket_type == "Ordinary":
+        price = 5000
+    elif ticket_type == "VIP":
+        price = 7000
+    else:
+        price = 0
+
+elif age >=36 and  age <= 50:
+   if ticket_type == "Ordinary":
+       price == 10000 # type: ignore
+   elif ticket_type == "VIP":
+       price == 12000 # type: ignore
+   else:
+      price = 0
+
+elif age >= 51 and age <= 70:
+   if ticket_type == "Ordinary":
+       price = 15000
+   elif ticket_type == "VIP":
+       price = 27000 
+else:
+   price = 0
+
+    
+    
+
+
