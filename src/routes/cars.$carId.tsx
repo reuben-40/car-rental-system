@@ -95,7 +95,7 @@ function CarDetailPage() {
           <h1 className="mt-2 text-4xl md:text-5xl">{c.make} {c.model} <span className="text-muted-foreground">{c.year}</span></h1>
           <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
             {[
-              { i: Users, l: "Seats", v: c.seats },
+              { i: Users, l: "Seats", v: `${c.seats} ${c.seats === 1 ? "person" : "people"}` },
               { i: Settings2, l: "Gearbox", v: c.transmission },
               { i: Fuel, l: "Fuel", v: c.fuel_type },
               { i: Gauge, l: "Odometer", v: `${c.mileage.toLocaleString()} km` },

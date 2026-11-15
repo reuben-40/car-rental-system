@@ -1,5 +1,4 @@
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
-import { CalendarCheck, Car, LayoutDashboard } from "lucide-react";
 import { SignInPrompt } from "@/components/site";
 import { useAuth } from "@/lib/auth";
 
@@ -31,9 +30,9 @@ function AdminLayout() {
           <h1 className="text-4xl">Operations</h1>
         </div>
         <nav className="flex gap-1 rounded-lg border bg-card p-1">
-          <Link to="/admin" activeOptions={{ exact: true }} className={tab} activeProps={on}><LayoutDashboard className="h-4 w-4" />Dashboard</Link>
-          <Link to="/admin/fleet" className={tab} activeProps={on}><Car className="h-4 w-4" />Fleet</Link>
-          <Link to="/admin/bookings" className={tab} activeProps={on}><CalendarCheck className="h-4 w-4" />Bookings</Link>
+          <Link to="/admin" activeOptions={{ exact: true }} className={tab} activeProps={on}>Dashboard</Link>
+          <Link to="/admin/fleet" className={tab} activeProps={on}>Fleet</Link>
+          <Link to="/admin/bookings" className={tab} activeProps={on}>Bookings</Link>
         </nav>
       </div>
       <Outlet />

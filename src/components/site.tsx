@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { Car as CarIcon, Fuel, Settings2, ShieldCheck, Users, UserRound, LogOut, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -40,7 +39,6 @@ export function SiteHeader() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm" className="gap-2">
-              {user?.role === "admin" ? <ShieldCheck className="h-4 w-4 text-gold" /> : <UserRound className="h-4 w-4" />}
               <span className="hidden sm:inline">{user ? user.full_name.split(" ")[0] : "Visitor"}</span>
               <Badge variant="secondary" className="capitalize">{user?.role ?? "guest"}</Badge>
             </Button>
@@ -48,14 +46,14 @@ export function SiteHeader() {
           <DropdownMenuContent align="end" className="w-60">
             <DropdownMenuLabel>Demo: switch perspective</DropdownMenuLabel>
             <DropdownMenuItem onClick={async () => { await switchRole("customer"); toast.success("Signed in as customer (Wanjiru)"); navigate({ to: "/bookings" }); }}>
-              <UserRound className="mr-2 h-4 w-4" /> Customer — Wanjiru Kamau
+              Customer — Wanjiru Kamau
             </DropdownMenuItem>
             <DropdownMenuItem onClick={async () => { await switchRole("admin"); toast.success("Signed in as admin (Grace)"); navigate({ to: "/admin" }); }}>
-              <ShieldCheck className="mr-2 h-4 w-4" /> Admin — Grace Mwangi
+              Admin — Grace Mwangi
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            {user && <DropdownMenuItem onClick={() => { signOut(); navigate({ to: "/", replace: true }); }}><LogOut className="mr-2 h-4 w-4" /> Sign out</DropdownMenuItem>}
-            <DropdownMenuItem onClick={() => { resetMockDb(); location.reload(); }}><RotateCcw className="mr-2 h-4 w-4" /> Reset demo data</DropdownMenuItem>
+            {user && <DropdownMenuItem onClick={() => { signOut(); navigate({ to: "/", replace: true }); }}>Sign out</DropdownMenuItem>}
+            <DropdownMenuItem onClick={() => { resetMockDb(); location.reload(); }}>Reset demo data</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -78,7 +76,6 @@ export function SiteFooter() {
         <div className="text-sm opacity-80">
           <p className="mb-2 font-semibold opacity-100">Contact</p>
           <p>+254 700 000 001 · hello@lasquadradoro.co.ke</p>
-          <p className="mt-4 opacity-60">CMT210 school project — demo data only.</p>
         </div>
       </div>
     </footer>
@@ -105,9 +102,9 @@ export function CarCard({ car, search }: { car: Car; search?: { start?: string |
           </div>
         </div>
         <div className="mt-4 flex gap-4 text-xs text-muted-foreground">
-          <span className="flex items-center gap-1"><Users className="h-3.5 w-3.5" />{car.seats}</span>
-          <span className="flex items-center gap-1 capitalize"><Settings2 className="h-3.5 w-3.5" />{car.transmission}</span>
-          <span className="flex items-center gap-1 capitalize"><Fuel className="h-3.5 w-3.5" />{car.fuel_type}</span>
+          <span>{car.seats} {car.seats === 1 ? "person" : "people"}</span>
+          <span className="capitalize">{car.transmission}</span>
+          <span className="capitalize">{car.fuel_type}</span>
         </div>
       </div>
     </Link>
@@ -153,7 +150,7 @@ export function SearchWidget({ className, initial }: { className?: string; initi
           </SelectContent>
         </Select>
       </div>
-      <Button type="submit" size="lg" className="gap-2 bg-gold text-gold-foreground hover:bg-gold/90"><CarIcon className="h-4 w-4" />Check availability</Button>
+      <Button type="submit" size="lg" className="bg-gold text-gold-foreground hover:bg-gold/90">Check availability</Button>
     </form>
   );
 }

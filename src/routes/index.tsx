@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowRight, BadgeCheck, MapPin, Receipt, Plane } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import hero from "@/assets/hero.jpg";
 import { CarCard, SearchWidget } from "@/components/site";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -75,15 +75,14 @@ function Home() {
 
       <section className="mx-auto mt-20 grid max-w-7xl gap-8 px-4 md:grid-cols-4">
         {[
-          { icon: Plane, t: "Airport handover", d: "Meet-and-greet at JKIA and Wilson." },
-          { icon: Receipt, t: "Honest pricing", d: "Subtotal, 16% VAT and 20% deposit upfront." },
-          { icon: BadgeCheck, t: "Inspected fleet", d: "Every car serviced between hires." },
-          { icon: MapPin, t: "Six Nairobi hubs", d: "Westlands, Kilimani, Karen, CBD and more." },
-        ].map(({ icon: I, t, d }) => (
+          { t: "Airport handover", d: "Meet-and-greet at JKIA and Wilson." },
+          { t: "Honest pricing", d: "Subtotal, 16% VAT and 20% deposit upfront." },
+          { t: "Inspected fleet", d: "Every car serviced between hires." },
+          { t: "Six Nairobi hubs", d: "Westlands, Kilimani, Karen, CBD and more." },
+        ].map(({ t, d }) => (
           <div key={t}>
-            <I className="h-6 w-6 text-gold" />
-            <p className="mt-3 font-semibold">{t}</p>
-            <p className="text-sm text-muted-foreground">{d}</p>
+            <p className="font-semibold">{t}</p>
+            <p className="mt-1 text-sm text-muted-foreground">{d}</p>
           </div>
         ))}
       </section>
