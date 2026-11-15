@@ -1,8 +1,15 @@
 // In-browser mock of the FastAPI backend. Each function mirrors one endpoint and
 // enforces the same business rules, throwing ApiError(status, detail) like HTTPException.
-import economy from "@/assets/car-economy.jpg";
-import suv from "@/assets/car-suv.jpg";
-import luxury from "@/assets/car-luxury.jpg";
+import axio from "@/assets/cars/axio.jpg";
+import demio from "@/assets/cars/demio.jpg";
+import aqua from "@/assets/cars/aqua.jpg";
+import prado from "@/assets/cars/prado.jpg";
+import forester from "@/assets/cars/forester.jpg";
+import xtrail from "@/assets/cars/xtrail.jpg";
+import eClass from "@/assets/cars/e-class.jpg";
+import bmw5Series from "@/assets/cars/bmw-5-series.jpg";
+import velar from "@/assets/cars/velar.jpg";
+import hiace from "@/assets/cars/hiace.jpg";
 import { BLOCKING_STATUSES, addDays, calculateQuote, daysBetween, overlaps, todayIso } from "../pricing";
 import {
   ApiError,
@@ -35,7 +42,7 @@ interface DB {
   seq: number;
 }
 
-const STORE = "lsdo-mockdb-v1";
+const STORE = "lsdo-mockdb-v2";
 const CATEGORIES: Category[] = [
   { id: 1, name: "Economy", description: "Fuel-sipping city cars" },
   { id: 2, name: "SUV", description: "Safari-ready 4x4s" },
@@ -51,21 +58,20 @@ const EXTRAS: Extra[] = [
 function seed(): DB {
   const now = new Date().toISOString();
   const t = todayIso();
-  const img = (c: number) => (c === 1 ? economy : c === 3 ? luxury : suv);
-  const car = (id: number, category_id: number, make: string, model: string, year: number, reg: string, colour: string, transmission: Car["transmission"], fuel_type: Car["fuel_type"], seats: number, daily_rate: number, mileage: number, status: Car["status"] = "available"): Car => ({
-    id, category_id, make, model, year, registration_number: reg, colour, transmission, fuel_type, seats, daily_rate, mileage, status, primary_image_url: img(category_id), created_at: now,
+  const car = (id: number, category_id: number, make: string, model: string, year: number, reg: string, colour: string, transmission: Car["transmission"], fuel_type: Car["fuel_type"], seats: number, daily_rate: number, mileage: number, img: string, status: Car["status"] = "available"): Car => ({
+    id, category_id, make, model, year, registration_number: reg, colour, transmission, fuel_type, seats, daily_rate, mileage, status, primary_image_url: img, created_at: now,
   });
   const cars = [
-    car(1, 1, "Toyota", "Axio", 2019, "KDK 214A", "White", "automatic", "petrol", 5, 4500, 61200),
-    car(2, 1, "Mazda", "Demio", 2020, "KDM 882C", "Silver", "automatic", "petrol", 5, 3800, 48300),
-    car(3, 1, "Toyota", "Aqua", 2021, "KDP 117F", "Blue", "automatic", "hybrid", 5, 4200, 33900),
-    car(4, 2, "Toyota", "Land Cruiser Prado", 2022, "KDS 450G", "Forest green", "automatic", "diesel", 7, 14500, 41000),
-    car(5, 2, "Subaru", "Forester", 2020, "KDN 309B", "Grey", "automatic", "petrol", 5, 8500, 57800),
-    car(6, 2, "Nissan", "X-Trail", 2019, "KDJ 776D", "Black", "manual", "petrol", 7, 7800, 72100, "maintenance"),
-    car(7, 3, "Mercedes-Benz", "E-Class", 2022, "KDT 001L", "Obsidian black", "automatic", "petrol", 5, 22000, 18500),
-    car(8, 3, "BMW", "5 Series", 2021, "KDR 555X", "Carbon black", "automatic", "hybrid", 5, 20000, 26400),
-    car(9, 3, "Range Rover", "Velar", 2023, "KDV 777X", "Santorini black", "automatic", "diesel", 5, 28000, 9800),
-    car(10, 4, "Toyota", "HiAce", 2020, "KDL 640K", "White", "manual", "diesel", 14, 12000, 88200),
+    car(1, 1, "Toyota", "Axio", 2019, "KDK 214A", "White", "automatic", "petrol", 5, 4500, 61200, axio),
+    car(2, 1, "Mazda", "Demio", 2020, "KDM 882C", "Silver", "automatic", "petrol", 5, 3800, 48300, demio),
+    car(3, 1, "Toyota", "Aqua", 2021, "KDP 117F", "Blue", "automatic", "hybrid", 5, 4200, 33900, aqua),
+    car(4, 2, "Toyota", "Land Cruiser Prado", 2022, "KDS 450G", "Forest green", "automatic", "diesel", 7, 14500, 41000, prado),
+    car(5, 2, "Subaru", "Forester", 2020, "KDN 309B", "Grey", "automatic", "petrol", 5, 8500, 57800, forester),
+    car(6, 2, "Nissan", "X-Trail", 2019, "KDJ 776D", "Black", "manual", "petrol", 7, 7800, 72100, xtrail, "maintenance"),
+    car(7, 3, "Mercedes-Benz", "E-Class", 2022, "KDT 001L", "Obsidian black", "automatic", "petrol", 5, 22000, 18500, eClass),
+    car(8, 3, "BMW", "5 Series", 2021, "KDR 555X", "Carbon black", "automatic", "hybrid", 5, 20000, 26400, bmw5Series),
+    car(9, 3, "Range Rover", "Velar", 2023, "KDV 777X", "Santorini black", "automatic", "diesel", 5, 28000, 9800, velar),
+    car(10, 4, "Toyota", "HiAce", 2020, "KDL 640K", "White", "manual", "diesel", 14, 12000, 88200, hiace),
   ];
   const customer: User = { id: 1, full_name: "Wanjiru Kamau", email: "wanjiru@example.co.ke", phone: "+254 712 345 678", role: "customer", licence_number: "DL-0048213", licence_expiry: addDays(t, 900), is_active: true, created_at: now };
   const other: User = { id: 3, full_name: "Otieno Ouma", email: "otieno@example.co.ke", phone: "+254 722 111 222", role: "customer", licence_number: "DL-0099120", licence_expiry: addDays(t, 600), is_active: true, created_at: now };
@@ -96,6 +102,7 @@ let memory: DB | null = null;
 function load(): DB {
   if (typeof window === "undefined") return (memory ??= seed());
   if (memory) return memory;
+  localStorage.removeItem("lsdo-mockdb-v1");
   const raw = localStorage.getItem(STORE);
   memory = raw ? (JSON.parse(raw) as DB) : seed();
   save();
@@ -194,7 +201,8 @@ export const mock = {
     const db = load();
     requireAdmin(db);
     if (db.cars.some((c) => c.registration_number.toUpperCase() === data.registration_number.toUpperCase())) throw new ApiError(409, "Registration number already exists");
-    const c: Car = { ...data, primary_image_url: data.primary_image_url || (data.category_id === 1 ? economy : data.category_id === 3 ? luxury : suv), id: Math.max(0, ...db.cars.map((x) => x.id)) + 1, created_at: new Date().toISOString() };
+    const defaultImg = (catId: number) => (catId === 1 ? axio : catId === 2 ? prado : catId === 3 ? eClass : hiace);
+    const c: Car = { ...data, primary_image_url: data.primary_image_url || defaultImg(data.category_id), id: Math.max(0, ...db.cars.map((x) => x.id)) + 1, created_at: new Date().toISOString() };
     db.cars.push(c);
     save();
     return delay(withCat(db, c));

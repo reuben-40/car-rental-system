@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { CalendarDays, MapPin } from "lucide-react";
 import { SignInPrompt, StatusBadge } from "@/components/site";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -59,8 +58,8 @@ function BookingRow({ b }: { b: Booking }) {
         </div>
         <p className="mt-1 font-display text-xl">{b.car?.make} {b.car?.model}</p>
         <p className="mt-1 flex flex-wrap gap-x-4 text-sm text-muted-foreground">
-          <span className="flex items-center gap-1"><CalendarDays className="h-3.5 w-3.5" />{formatDate(b.start_date)} → {formatDate(b.end_date)}</span>
-          <span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" />{b.pickup_location}</span>
+          <span>{formatDate(b.start_date)} → {formatDate(b.end_date)}</span>
+          <span>{b.pickup_location}</span>
         </p>
       </div>
       <div className="flex items-center gap-4 sm:flex-col sm:items-end">
