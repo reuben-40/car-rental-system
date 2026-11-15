@@ -6,7 +6,7 @@ import type { Role, User } from "./types";
 
 export const DEMO_ACCOUNTS: Record<Role, { email: string; password: string }> = {
   customer: { email: "wanjiru@example.co.ke", password: "demo1234" },
-  admin: { email: "admin@lasquadradoro.co.ke", password: "demo1234" },
+  admin: { email: "admin@lasquadradoro.com", password: "demo1234" },
 };
 
 interface AuthCtx {
