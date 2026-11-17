@@ -3,7 +3,6 @@ import { ApiError } from "../types";
 
 export const TOKEN_KEY = "lsdo-token";
 
-/** Set VITE_API_URL (e.g. http://localhost:8000) and VITE_USE_MOCK=false to hit the FastAPI backend. */
 export const USE_MOCK = import.meta.env['VITE_USE_MOCK'] !== "false";
 
 export const http = axios.create({

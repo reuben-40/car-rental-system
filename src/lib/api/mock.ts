@@ -1,5 +1,3 @@
-// In-browser mock of the FastAPI backend. Each function mirrors one endpoint and
-// enforces the same business rules, throwing ApiError(status, detail) like HTTPException.
 import axio from "@/assets/cars/axio.jpg";
 import demio from "@/assets/cars/demio.jpg";
 import aqua from "@/assets/cars/aqua.jpg";
@@ -151,7 +149,6 @@ function findBooking(db: DB, id: number) {
 }
 
 export const mock = {
-  // ---- auth ----
   async login(email: string, _password: string): Promise<TokenResponse> {
     const db = load();
     const u = db.users.find((x) => x.email.toLowerCase() === email.toLowerCase());
@@ -168,7 +165,6 @@ export const mock = {
     save();
     return delay(u);
   },
-  // ---- cars ----
   async listCars(f: CarFilters = {}): Promise<Paginated<Car>> {
     const db = load();
     let items = db.cars.filter((c) => c.status !== "retired");
@@ -219,11 +215,9 @@ export const mock = {
   async deleteCar(id: number): Promise<void> {
     await mock.updateCar(id, { status: "retired" });
   },
-  // ---- extras ----
   async listExtras(): Promise<Extra[]> {
     return delay(load().extras, 60);
   },
-  // ---- bookings ----
   async quote(req: QuoteRequest): Promise<Quote> {
     const db = load();
     validateDates(req.start_date, req.end_date);
@@ -278,7 +272,6 @@ export const mock = {
     save();
     return delay(hydrate(db, b));
   },
-  // ---- admin ----
   async adminBookings(status?: BookingStatus): Promise<Booking[]> {
     const db = load();
     requireAdmin(db);

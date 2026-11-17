@@ -18,7 +18,6 @@ export const Route = createFileRoute("/admin")({
 function AdminLayout() {
   const { user, ready } = useAuth();
   if (!ready) return null;
-  // UI gate only — the backend must enforce the admin role on every /admin endpoint.
   if (user?.role !== "admin") return <SignInPrompt role="admin" />;
   const tab = "flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground";
   const on = { className: "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground" };

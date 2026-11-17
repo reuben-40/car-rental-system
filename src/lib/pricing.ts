@@ -1,5 +1,3 @@
-// Pure business rules mirrored from the backend services (availability.py, pricing.py).
-// The real app trusts POST /bookings/quote; these exist so the mock service behaves identically.
 import type { DateRange, Extra, Quote } from "./types";
 
 export const TAX_RATE = 0.16;
@@ -9,17 +7,14 @@ export const BLOCKING_STATUSES = ["pending", "confirmed", "active"] as const;
 const DAY = 86_400_000;
 const toUtc = (iso: string) => Date.parse(iso + "T00:00:00Z");
 
-/** Whole days between start and end (end exclusive). */
 export function daysBetween(start: string, end: string): number {
   return Math.round((toUtc(end) - toUtc(start)) / DAY);
 }
 
-/** Overlap rule: new_start < existing_end AND new_end > existing_start */
 export function overlaps(a: DateRange, b: DateRange): boolean {
   return a.start_date < b.end_date && a.end_date > b.start_date;
 }
 
-// Work in cents to avoid float drift (backend uses Decimal ROUND_HALF_UP).
 const cents = (n: number) => Math.round(n * 100);
 const kes = (c: number) => c / 100;
 

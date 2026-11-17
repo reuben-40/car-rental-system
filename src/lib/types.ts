@@ -1,7 +1,3 @@
-// TypeScript models mirroring the FastAPI / Pydantic schemas (CMT210 build manual, Phase 3).
-// Money fields are numbers in KES with 2dp, matching Numeric(10,2) serialised as JSON numbers.
-// Dates are ISO "YYYY-MM-DD"; end_date is EXCLUSIVE (checkout-style).
-
 export type Role = "customer" | "admin";
 
 export interface User {
@@ -154,7 +150,6 @@ export interface Dashboard {
   fleet_maintenance: number;
 }
 
-/** Shape of FastAPI's HTTPException body: { detail: string } */
 export class ApiError extends Error {
   constructor(
     public status: number,

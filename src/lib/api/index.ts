@@ -1,5 +1,3 @@
-// Single API surface for the app. Every method maps 1:1 to a FastAPI endpoint;
-// with USE_MOCK it routes to the in-browser mock instead of Axios.
 import type {
   Booking, BookingCreate, BookingStatus, Car, CarCreate, CarDetail, CarFilters, CarUpdate,
   Dashboard, Extra, Paginated, Quote, QuoteRequest, TokenResponse, User, UserUpdate,
@@ -33,7 +31,7 @@ function resolveBooking(b: Booking): Booking {
 
 const real = {
   login: (email: string, password: string) => {
-    const form = new URLSearchParams({ username: email, password }); // OAuth2PasswordRequestForm
+    const form = new URLSearchParams({ username: email, password });
     return d<TokenResponse>(http.post("/auth/login", form, { headers: { "Content-Type": "application/x-www-form-urlencoded" } }));
   },
   me: () => d<User>(http.get("/auth/me")),
